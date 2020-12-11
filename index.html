@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- <meta charset="utf-8"> -->
+  <title>Map&amp;Geolocation</title>
+
+<!-- jQuery&GoogleMapsAPI -->
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script defer
+src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=&v=weekly">
+</script>
+
+<style>
+  #myMap {
+    height: 100%;
+  }
+
+  html, body {
+    height: 100%;
+  }
+
+  #maparea {
+    height: 75%;
+  }
+
+ /* インプットエリアここから */
+ .inputarea {
+      margin: auto;
+      width: 100%;
+      height: 150px;
+      position: fixed;
+      bottom: 0;
+      background-color: white;
+    }
+
+    .inputtitle {
+      margin: 5px auto 5px;
+      text-align: center;
+    }
+
+    .subtextarea {
+      display: flex;
+      height: 50px;
+      width: 100%;
+      margin: auto;
+      justify-content: space-between;
+
+    }
+
+    .subtextbox {
+      display: flex;
+      margin: auto;
+    }
+
+    .subtextbox > p {
+      margin: 5px;
+    }
+
+    .maintextarea {
+      margin: auto;
+      height: 100px;
+      width: 600px;
+    }
+
+    .maintextbox {
+      display: flex;
+      margin: auto;
+      min-width: 400px;
+    }
+
+    .text {
+      resize: vertical;
+      width: 500px;
+      height: 50px;
+    }
+
+    .send {
+      width: 80px;
+      height: 55px;
+    }
+
+
+
+</style>
+
+
+<script>
+
+  // const uluru = { lat: -25.363, lng: 131.044 };
+  // const Tokyo = { lat: 35.68, lng: 139.77 };
+  // const Praha = { lat: 50.09, lng: 14.43}
+
+
+  // const Ramen ={
+  //   country: "日本",
+  //   title: "ラーメン",
+  //   place: Tokyo,
+  //   text: "スープに麺が入ったもの",
+  //   link: "https://ja.wikipedia.org/wiki/%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3"
+  // };
+
+  // const Goulash = {
+  //   country: "チェコ",
+  //   title: "グヤーシュ",
+  //   place: Praha,
+  //   text: "豚肉や牛肉をパプリカで煮込んだ料理",
+  //   link: "https://en.wikipedia.org/wiki/Goulash#Czech_Republic_and_Slovakia"
+  // };
+
+  // const dishes = [Ramen, Goulash]
+
+  // console.log(dishes[0].country);
+
+
+
+  // let map;
+
+  // function initMap() {
+  //   map = new google.maps.Map(document.getElementById("myMap"), {
+  //     center: Tokyo,
+  //     zoom: 2,
+  //   });
+
+
+  //   // 配列の内容をマーカーで表し、情報ウインドウに内容を書き込む
+  //   for (let i =0; i < dishes.length; i++){
+
+  //     const key = dishes[i];
+  //     console.log(key);
+
+  //     let contentString = 
+  //     '<div id="content">' +
+  //       '<div id="siteNotice">' +
+  //       "</div>" +
+  //       '<h1 class="firstHeading">'+key.title+'</h1>' +
+  //       '<h2 class="secondHeading">'+key.country+'</h2>'+
+  //       '<div id="bodyContent">' +
+  //           key.text +          
+  //         '<p>参照:<a href='+ key.link+'>リンク</a></p>' +
+  //       "</div>" +
+  //     "</div>";
+
+  //     let infowindow = new google.maps.InfoWindow({
+  //       content: contentString,
+  //     });
+
+  //     let marker = new google.maps.Marker({
+  //       position: key.place,
+  //       map,
+  //       title: key.title,
+  //     });
+
+  //     marker.addListener("click", () => {
+  //       infowindow.open(map, marker);
+  //     });
+
+  //   }
+
+  // }
+
+
+</script>
+
+</head>
+
+<body>
+
+  <!-- MapArea -->
+
+  <div id="maparea">
+    <div id="myMap"></div>
+  </div>
+  <!-- /MapArea -->
+
+  <div class="inputarea" id="newinput">
+
+    <p class="inputtitle">項目を入力して送信してください</p>
+
+    <div class="subtextarea">
+      
+      <!-- タイトル -->
+      <div class="titlebox subtextbox">
+        <p>タイトル</p>
+        <input type="text" id="input_title">
+      </div>
+      
+      <!--  国  -->
+      <div class="countrybox subtextbox">
+        <p>国名</p>
+        <input type="text" id="input_country">
+      </div>
+
+      <!--  場所（緯度）  -->
+      <div class="latbox subtextbox">
+        <p>緯度</p>
+        <input type="number" id="input_lat">
+      </div>
+
+      <!--  場所（経度）  -->
+      <div class="lngbox subtextbox">
+        <p>経度</p>
+        <input type="number" id="input_lng">
+      </div>
+
+      <!--  リンク  -->
+      <div class="linkbox subtextbox">
+        <p>参照URL</p>
+        <input type="text" id="input_link">
+      </div>
+
+    </div>
+
+    <div class="maintextarea">
+      <div class="maintextbox">
+        <!-- テキストエリア -->
+        <div>
+          <textarea name="" id="input_text" class="text" placeholder="内容を入力"></textarea>
+        </div>
+        <!-- 送信ボタン -->
+        <div>
+          <button id="send" class="send">送信</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyB791_hcqAT0r_QY8VT02UmkwFlFRs62z0",
+      authDomain: "dev18-js4.firebaseapp.com",
+      projectId: "dev18-js4",
+      storageBucket: "dev18-js4.appspot.com",
+      messagingSenderId: "63645163480",
+      appId: "1:63645163480:web:8e09cfaf54327a02509cad"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    //firebaseのデーターベース（保存させる場所）を
+    const newPostRef = firebase.database().ref();
+
+    // 送信ボタンをクリックされたら次の処理をする
+    $("#send").on("click", function () {
+      // データを登録で送る
+      newPostRef.push({
+        country: $("#input_country").val(),
+        title: $("#input_title").val(),
+        place: '{ lat:'+$("#input_lat").val()+', lng: '+$("#input_lng").val()+'}', //文字列として保存されてしまうため、そのままは使えない
+        lat: $("#input_lat").val(),
+        lng: $("#input_lng").val(),
+        text: $("#input_text").val(),
+        link: $("#input_link").val()
+      })
+
+      $("#input_title").val(""); //空にする
+      $("#input_country").val(""); //空にする
+      $("#input_lat").val(""); //空にする
+      $("#input_lng").val(""); //空にする
+      $("#input_text").val(""); //空にする
+      $("#input_link").val(""); //空にする
+    });
+
+    // 最初の地図の中心を東京にするため、ロケーションを設定
+    const Tokyo = { lat: 35.68, lng: 139.77 };
+
+    // 地図を作成
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("myMap"), {
+        center: Tokyo,
+        zoom: 3,
+      });
+
+      // 受信処理
+      newPostRef.on("child_added", function (data) {
+        console.log(data)
+        let v = data.val(); //ここに保存されたデータが全て入ってくる
+
+        console.log(v); //vの変数に入っているオブジェクトを全てみる
+
+
+        let contentString = 
+          '<div id="content">' +
+            '<div id="siteNotice">' +
+            "</div>" +
+            '<h1 class="firstHeading">'+v.title+'</h1>' +
+            '<h2 class="secondHeading">'+v.country+'</h2>'+
+            '<div id="bodyContent">' +
+                v.text +          
+              '<p>参照:<a href='+ v.link+' target="_blank">リンク</a></p>' +
+            "</div>" +
+          "</div>";
+
+        let infowindow = new google.maps.InfoWindow({
+          content: contentString,
+        });
+
+        console.log(v.lat);
+        let place = { lat: Number(v.lat) , lng: Number(v.lng)};
+
+        console.log(place)
+
+        let marker = new google.maps.Marker({
+          position: place,
+          map,
+          title: v.title,
+        });
+
+        marker.addListener("click", () => {
+          infowindow.open(map, marker);
+        });
+        
+      })
+
+    }
+
+    
+
+  </script>
+
+
+</body>
+
+</html>
